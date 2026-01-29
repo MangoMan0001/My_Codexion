@@ -4,7 +4,7 @@
 NAME = codexion
 
 CC = cc
-CFLAG = -Wall -Wextra -Werror
+CFLAG   = -Wall -Wextra -Werror -pthread $(INCLUDES)
 
 # ------------------------------------------------------------------------------
 #                                 SOURCE FILES
@@ -17,6 +17,8 @@ SRC_INIT    = init_data.c init_mutex.c parser.c
 SRC_THREAD  = routine.c actions.c monitor.c
 SRC_SCHED   = arbiter.c queue.c
 SRC_UTILS   = time.c output.c cleanup.c
+
+INCLUDES = -I./include
 
 SRCS        = $(addprefix $(SRC_DIR)/, $(SRC_MAIN)) \
               $(addprefix $(SRC_DIR)/init/, $(SRC_INIT)) \

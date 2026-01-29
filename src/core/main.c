@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   codexion.h                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/01/27 19:18:31 by ayhirose         ###   ########.fr       */
+/*   Created: 2026/01/28 08:21:39 by ayhirose          #+#    #+#             */
+/*   Updated: 2026/01/28 17:33:33 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CODEXION_H
-# define PUSH_SWAP_H
+# include "codexion.h"
 
-#endif
+
+void main(int argc, char **argv)
+{
+    codexion(argc, argv);
+}
