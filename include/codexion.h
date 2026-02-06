@@ -6,86 +6,95 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/05 18:25:34 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/06 21:49:45 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CODEXION_H
 # define CODEXION_H
+
 # include <pthread.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <unistd.h>
+# include <sys/time.h>
+# include <string.h>
 
+// --- 定数定義 ---
+# define TRUE 1
+# define FALSE 0
 
-// /* --- 定数 --- */
-// # define SCHED_FIFO 0
-// # define SCHED_EDF  1
+// エラーメッセージ
+# define ERR_ARGS "Error: Invalid arguments\n"
+# define ERR_MALLOC "Error: Memory allocation failed\n"
+# define ERR_THREAD "Error: Thread creation failed\n"
 
+typedef struct s_rules t_rules;
 
-// /* --- 構造体 --- */
-// struct s_rules;
+/*
+** ‍コーダー個人の構造体
+** 各スレッドが自分の状態を管理するために作成し、管理する。
+*/
+typedef struct s_coder
+{
+    int             id;                 // コーダー番号 (1 ~ N)
+    pthread_t       tid;                // スレッドID
 
-// // ドングル（共有リソース）
-// typedef struct s_dongle
-// {
-//     int             id;
-//     pthread_mutex_t lock;           // ドングルを守る鍵
-//     long long       last_used_time; // クールダウン判定用
-// } t_dongle;
+    // --- ドングル情報 ---
+    int             left_dongle_id;     // 左手のドングル番号（配列インデックス）
+    int             right_dongle_id;    // 右手のドングル番号（配列インデックス）
 
+    // --- 状態管理 ---
+    int             compile_count;      // 今までにコンパイルした回数
+    long long       last_compile_start; // 最後にコンパイルを開始した時刻 (ms)
 
-// // コーダー（スレッド）
-// typedef struct s_coder
-// {
-//     int             id;             // 1 ~ N
-//     int             compile_count;  // コンパイル回数
-//     long long       last_compile_start; // Burnout判定用
+    // --- 共有データへの参照 ---
+    t_rules         *rules;             // 親（全体設定）へのポインタ
+} t_coder;
 
-//     // 円卓の構造：左右のドングルへのポインタ
-//     t_dongle        *left_dongle;
-//     t_dongle        *right_dongle;
+/*
+** 全体ルール・共有リソース構造体
+** Main関数で一つだけ作られ、全員がこれを参照する。
+** 参照/書き換えはすべてglobal_lockを通して行う。
+*/
+struct s_rules
+{
+    // --- 設定値 (Read Only) ---
+    int             num_coders;
+    long long       time_to_die;        // Burnoutまでの時間
+    long long       time_to_compile;
+    long long       time_to_debug;
+    long long       time_to_refactor;
+    int             must_compile_count; // 目標回数 (-1なら無限)
+    int             dongle_cooldown;    // ドングルのクールダウン時間 (ms)
 
-//     struct s_rules  *rules;         // 全体ルールへの参照
-//     pthread_t       thread_id;      // スレッドの実体
-//     pthread_mutex_t coder_lock;     // 自分自身のデータ保護用
-// } t_coder;
+    // --- 時間管理 ---
+    long long       start_time;         // シミュレーション開始時刻
 
-// // 全体設定（引数で受け取るもの）
-// typedef struct s_rules
-// {
-//     int             num_coders;
-//     long long       time_burnout;
-//     long long       time_compile;
-//     long long       time_debug;
-//     long long       time_refactor;
-//     int             num_required;    // ノルマ回数
-//     long long       dongle_cooldown;
-//     int             scheduler;       // FIFO or EDF
+    // --- 制御フラグ ---
+    int             is_simulation_active; // 1:継続中, 0:誰かが死んだor終了
+    int             finished_coders;      // 目標回数を達成した人数
 
-//     long long       start_time;      // シミュレーション開始時刻
-//     int             is_dead;         // 誰かがBurnoutしたら1
-//     int             all_full;        // 全員ノルマ達成したら1
+    // --- 同期プリミティブ ---
+    pthread_mutex_t global_lock;        // 全データ保護・出力保護用の神の鍵
+    pthread_cond_t  cond;               // スレッド就寝/起床変数
 
-//     pthread_mutex_t write_lock;      // ログ出力用
-//     pthread_mutex_t stop_lock;       // 終了フラグ用
+    // --- 共有リソース (ドングル) ---
+    // ドングルごとの個別Mutex
+    pthread_mutex_t *dongle_locks;
+    // ドングルが次に使えるようになる時刻
+    long long       *dongle_ready_times;
 
-//     t_coder         *coders;         // 配列
-//     t_dongle        *dongles;        // 配列
-// } t_rules;
+    // --- 待ち行列 (FIFO Queue -> 後にHeap化) ---
+    int             *queue;             // 待っているコーダーのIDを入れる配列
+    int             queue_size;         // 現在並んでいる人数
+    int             queue_capacity;     // 配列の最大サイズ (= num_coders)
+    // ※ FIFO用のリングバッファ変数 (Heap化する時は使わなくなる)
+    int             q_head;             // 取り出し位置
+    int             q_tail;             // 追加位置
 
-// // 優先度付きキュー（待ち行列）
-// typedef struct s_pqueue
-// {
-//     struct s_coder  **data;         // 待っているコーダーへのポインタ配列（ヒープ木）
-//     int             size;           // 現在待っている人数
-//     int             capacity;       // 最大容量（= num_coders）
-//     pthread_mutex_t lock;           // 行列の操作を守る鍵
-//     pthread_cond_t  cond_empty;     // ドングルが空くのを待つための条件変数
-// } t_pqueue;
-
-// /* --- プロトタイプ宣言 --- */
-// int     init_all(t_rules *rules, char **argv);
-
-// void codexion(int argc, char **argv);
+    // --- 子データ ---
+    t_coder         *coders;            // コーダー配列
+};
 
 #endif

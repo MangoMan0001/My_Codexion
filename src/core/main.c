@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 08:21:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/05 21:43:35 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/06 16:19:58 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 typedef struct  routine_arg{
     int             n;
     pthread_mutex_t mutex;
+    pthread_cond_t cond;
 } routine_arg;
 
 void *routine(void *arg)
