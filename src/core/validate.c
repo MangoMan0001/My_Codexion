@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 08:21:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/06 22:43:33 by ayhirose         ###   ########.fr       */
+/*   Created: 2026/02/06 22:03:15 by ayhirose          #+#    #+#             */
+/*   Updated: 2026/02/06 22:44:08 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	main(int argc, char **argv)
+void	validate(int argc, char **argv)
 {
-	codexion(argc, argv);
+	(void)argc;
+	(void)argv;
+	return ;
 }
