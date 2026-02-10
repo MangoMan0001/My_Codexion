@@ -11,20 +11,18 @@ CFLAG   = -Wall -Wextra -Werror -pthread $(INCLUDES)
 # ------------------------------------------------------------------------------
 SRC_DIR     = src
 
-SRC_MAIN    = main.c
+SRC_CORE    = main.c codexion.c init.c validate.c
 
-# SRC_INIT    = init_data.c init_mutex.c parser.c
-# SRC_THREAD  = routine.c actions.c monitor.c
 # SRC_SCHED   = arbiter.c queue.c
-# SRC_UTILS   = time.c output.c cleanup.c
+SRC_SIM  = routine.c action.c simulation.c
+SRC_UTILS   = time.c clean.c utils.c
 
 INCLUDES = -I./include
 
-SRCS        = $(addprefix $(SRC_DIR)/core/, $(SRC_MAIN)) \
-            #   $(addprefix $(SRC_DIR)/init/, $(SRC_INIT)) \
-            #   $(addprefix $(SRC_DIR)/thread/, $(SRC_THREAD)) \
-            #   $(addprefix $(SRC_DIR)/scheduler/, $(SRC_SCHED)) \
-            #   $(addprefix $(SRC_DIR)/utils/, $(SRC_UTILS))
+SRCS        = $(addprefix $(SRC_DIR)/core/, $(SRC_CORE)) \
+			  $(addprefix $(SRC_DIR)/simulation/, $(SRC_SIM)) \
+			  $(addprefix $(SRC_DIR)/utils/, $(SRC_UTILS)) \
+# 			  $(addprefix $(SRC_DIR)/scheduler/, $(SRC_SCHED)) \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -45,6 +43,10 @@ $(NAME): $(OBJS)
 
 val: re
 		@valgrind --tool=helgrind -q ./codexion
+
+run: re
+		@make clean
+		@./codexion 4 800 100 100 100 5 100 fifo
 
 clean:
 		@echo "CLeaning..."

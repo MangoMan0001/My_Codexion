@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 08:21:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/06 22:43:33 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/08 19:33:55 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 int	main(int argc, char **argv)
 {
-	codexion(argc, argv);
+	return (codexion(argc, argv));
 }

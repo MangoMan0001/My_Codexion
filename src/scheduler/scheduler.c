@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   codexion.c                                         :+:      :+:    :+:   */
+/*   scheduler.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 08:23:25 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/09 18:28:50 by ayhirose         ###   ########.fr       */
+/*   Created: 2026/02/09 16:58:10 by ayhirose          #+#    #+#             */
+/*   Updated: 2026/02/10 03:44:15 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	codexion(int argc, char **argv)
+int	scheduler(t_coder *coder)
 {
-	t_rules	rule;
+	t_rules *rule;
+	int		result;
 
-	if (init(&rule, argc, argv))
-		return 1;
-
-	simulation(&rule);
-	free_rule(&rule);
-	destroy_mutexes(&rule);
-	return 0;
+	rule = coder->rule;
+	if (rule->scheduler_type == FIFO)
+		return fifo(coder);
+	return edf(coder);
 }

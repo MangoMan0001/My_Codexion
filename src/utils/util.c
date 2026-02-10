@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   codexion.c                                         :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 08:23:25 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/09 18:28:50 by ayhirose         ###   ########.fr       */
+/*   Created: 2026/02/09 16:02:33 by ayhirose          #+#    #+#             */
+/*   Updated: 2026/02/10 01:51:06 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	codexion(int argc, char **argv)
+void	*my_calloc(size_t size)
 {
-	t_rules	rule;
+	void	*result;
 
-	if (init(&rule, argc, argv))
-		return 1;
-
-	simulation(&rule);
-	free_rule(&rule);
-	destroy_mutexes(&rule);
-	return 0;
+	result = malloc(size);
+	if (!result)
+		return NULL;
+	return memset(result, 0, size);
 }
