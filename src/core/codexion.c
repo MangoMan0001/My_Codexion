@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 08:23:25 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/09 18:28:50 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/12 02:42:10 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	codexion(int argc, char **argv)
 
 	if (init(&rule, argc, argv))
 		return 1;
-
 	simulation(&rule);
 	free_rule(&rule);
 	destroy_mutexes(&rule);

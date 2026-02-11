@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 11:56:52 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/12 02:19:43 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/12 03:09:32 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	is_simulation_finished(t_rules *rule)
 			return ;
 		i++;
 	}
-	printf("simulation finish");
+	printf("simulation finish\n");
 	rule->is_simulation_active = FALSE;
 }
 

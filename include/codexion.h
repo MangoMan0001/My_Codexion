@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/12 02:16:03 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/12 03:19:03 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/time.h>
 # include <string.h>
 # include <stddef.h>
+# include <limits.h>
 
 // --- 定数定義 ---
 # define TRUE 1
