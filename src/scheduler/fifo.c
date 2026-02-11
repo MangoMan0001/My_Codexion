@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:49:55 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/10 04:51:30 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/10 18:26:32 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	pop_queue(t_coder *coder)
 	int		current_id;
 
 	rule = coder->rule;
-	tail = rule->queue_size;
+	tail = rule->queue_size - 1;
 	prev_id = rule->queue[tail];
 	while (0 <= tail)
 	{

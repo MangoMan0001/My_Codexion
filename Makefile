@@ -12,17 +12,16 @@ CFLAG   = -Wall -Wextra -Werror -pthread $(INCLUDES)
 SRC_DIR     = src
 
 SRC_CORE    = main.c codexion.c init.c validate.c
-
-# SRC_SCHED   = arbiter.c queue.c
-SRC_SIM  = routine.c action.c simulation.c
-SRC_UTILS   = time.c clean.c utils.c
+SRC_SCHED   = scheduler.c fifo.c
+SRC_SIM  = routine.c simulation.c compile.c subroutine.c
+SRC_UTILS   = clean.c time.c utils.c
 
 INCLUDES = -I./include
 
 SRCS        = $(addprefix $(SRC_DIR)/core/, $(SRC_CORE)) \
+			  $(addprefix $(SRC_DIR)/scheduler/, $(SRC_SCHED)) \
 			  $(addprefix $(SRC_DIR)/simulation/, $(SRC_SIM)) \
 			  $(addprefix $(SRC_DIR)/utils/, $(SRC_UTILS)) \
-# 			  $(addprefix $(SRC_DIR)/scheduler/, $(SRC_SCHED)) \
 
 OBJS = $(SRCS:.c=.o)
 

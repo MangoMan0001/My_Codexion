@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/10 04:35:49 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/11 23:51:16 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ struct s_rules
 	int				queue_size; // 現在並んでいる人数
 	// --- 子データ ---
 	t_coder			*coders; // コーダー配列
+	// --- モニター ---
+	pthread_t		monitor;
 };
 
 // プロトタイプ宣言
@@ -103,9 +105,10 @@ int		fifo(t_coder *coder);
 void	pop_queue(t_coder *coder);
 
 // simulation
-int simulation(t_rules *rule);
-void	*routine(void *arg);
-long long	get_time(void);
+int 		simulation(t_rules *rule);
+void		*routine(void *arg);
+void		routine_compile(t_coder *coder, int *flag);
+void		*monitor(void *arg)
 
 // utils
 void		free_rule(t_rules *rule);
@@ -113,5 +116,8 @@ void		destroy_mutexes(t_rules *r);
 void		just_sleep(long long time, t_rules *rules);
 long long	get_time(void);
 void		*my_calloc(size_t size);
+void		print_log(t_coder *coder, char *msg);
+void		print_log_lock(t_coder *coder, char *msg);
+
 
 #endif
