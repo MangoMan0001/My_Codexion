@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/11 23:51:16 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/12 02:16:03 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	pop_queue(t_coder *coder);
 int 		simulation(t_rules *rule);
 void		*routine(void *arg);
 void		routine_compile(t_coder *coder, int *flag);
-void		*monitor(void *arg)
+void		*monitor(void *arg);
 
 // utils
 void		free_rule(t_rules *rule);

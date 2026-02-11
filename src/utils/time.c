@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 11:42:06 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/09 23:51:11 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/12 01:54:44 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	just_sleep(long long time, t_rules *rule)
 	start = get_time();
 	while (flag)
 	{
-		if (get_time() - start >= time)
+		if (time <= get_time() - start)
 			break ;
 		usleep(50);
 		pthread_mutex_lock(&rule->global_lock);
