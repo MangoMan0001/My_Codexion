@@ -43,9 +43,10 @@ $(NAME): $(OBJS)
 val: re
 		@valgrind --tool=helgrind -q ./codexion
 
+# helgrind
 run: re
 		@make clean
-		@./codexion 4 900 100 100 100 1 100 fifo
+		@./codexion 5 900 0 0 0 100 100 fifo
 
 clean:
 		@echo "CLeaning..."

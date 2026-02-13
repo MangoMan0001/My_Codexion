@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:03:18 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/10 03:43:23 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/13 20:15:30 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	init_malloc(t_rules *rule)
 	rule->dongle_locks = (pthread_mutex_t *)my_calloc(sizeof(pthread_mutex_t) * rule->num_coders);
 	rule->dongle_cool_times = (long long *)my_calloc(sizeof(long long) * rule->num_coders);
 	rule->dongle_status = (int *)my_calloc(sizeof(int) * rule->num_coders);
-	rule->queue = (int *)my_calloc(sizeof(int) * rule->num_coders);
+	rule->queue = (int *)my_calloc(sizeof(int) * rule->num_coders + 1);
 	rule->coders = (t_coder *)my_calloc(sizeof(t_coder) * rule->num_coders);
 	if (!rule->coders || !rule->dongle_locks || !rule->dongle_cool_times \
 		|| !rule->dongle_status || !rule->queue)

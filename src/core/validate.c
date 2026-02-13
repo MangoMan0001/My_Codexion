@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:03:15 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/12 03:48:50 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/13 18:49:53 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static int	is_int(char *str)
 		return 1;
 	if (str[i] == '+')
 		i++;
+	if (!str[i])
+		return 1;
 	while (str[i])
 	{
 		if (is_digit(str[i]))
@@ -48,7 +50,10 @@ int	validate(int argc, char **argv)
 
 	i = 1;
 	if (argc != 9)
+	{
+		fprintf(stderr, "must be eight arguments..\n");
 		return 1;
+	}
 	while (i < 8)
 	{
 		if (is_int(argv[i]))

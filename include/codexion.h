@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/12 03:19:03 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/13 21:06:51 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct s_coder
 	// --- 状態管理 ---
 	int				compile_count; // 今までにコンパイルした回数
 	long long		last_compile_start; // 最後にコンパイルを開始した時刻 (ms)
+	long long		enqueue_time; // queueに登録した時間（ms）fifoのみ使用
+	int				is_in_queue; //queueに並んでいるのかいないのか
 	// --- 共有データへの参照 ---
 	t_rules			*rule; // 親（全体設定）へのポインタ
 }	t_coder;
@@ -84,7 +86,7 @@ struct s_rules
 	pthread_mutex_t	*dongle_locks; // ドングルごとの個別Mutex
 	long long		*dongle_cool_times; // ドングルが次に使えるようになる時刻
 	int				*dongle_status; // 拾えるドングルは0、使ってるドングルは1
-	// --- 待ち行列 (FIFO Queue -> 後にHeap化) ---
+	// --- 待ち行列 (Heap) ---
 	int				*queue; // 待っているコーダーのIDを入れる配列
 	int				queue_size; // 現在並んでいる人数
 	// --- 子データ ---
