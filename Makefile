@@ -46,7 +46,7 @@ val: re
 # helgrind
 run: re
 		@make clean
-		@./codexion 5 900 0 0 0 100 100 fifo
+		@./codexion 5 710 200 200 200 5 100 edf
 
 clean:
 		@echo "CLeaning..."
