@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 11:56:52 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/12 03:09:32 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/15 06:18:50 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	is_someone_burned_out(t_rules *rule)
 		if (rule->time_to_burnout <= time)
 		{
 			print_log(&rule->coders[i], "burned out");
+			printf("%d, %d", rule->coders[i].left_coder_id, rule->coders[i].right_coder_id);
 			rule->is_simulation_active = FALSE;
 			return;
 		}

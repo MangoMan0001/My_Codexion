@@ -12,7 +12,7 @@ CFLAG   = -Wall -Wextra -Werror -pthread $(INCLUDES)
 SRC_DIR     = src
 
 SRC_CORE    = main.c codexion.c init.c validate.c
-SRC_SCHED   = scheduler.c fifo.c
+SRC_SCHED   = scheduler.c
 SRC_SIM  = routine.c simulation.c compile.c subroutine.c
 SRC_UTILS   = clean.c time.c utils.c
 
@@ -46,7 +46,7 @@ val: re
 # helgrind
 run: re
 		@make clean
-		@./codexion 5 710 200 200 200 5 100 edf
+		@./codexion 5 901 200 50 50 10 100 edf
 
 clean:
 		@echo "CLeaning..."

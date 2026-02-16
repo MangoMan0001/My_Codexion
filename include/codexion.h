@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/13 21:06:51 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/15 04:12:32 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ int	init(t_rules *rule, int argc, char **argv);
 
 // scheduler
 int		scheduler(t_coder *coder);
-int		fifo(t_coder *coder);
 void	pop_queue(t_coder *coder);
 
 // simulation

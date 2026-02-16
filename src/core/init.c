@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:03:18 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/13 20:15:30 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/15 06:16:37 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,9 @@ static void init_corder(t_rules *rule)
 	while (i < rule->num_coders)
 	{
 		rule->coders[i].id = i + 1;
-		rule->coders[i].left_coder_id = i;
-		if (i == 0)
-			rule->coders[i].left_coder_id = rule->num_coders;
-		rule->coders[i].right_coder_id = i + 2;
+		rule->coders[i].left_coder_id = (i + rule->num_coders - 1) % \
+										rule->num_coders + 1;
+		rule->coders[i].right_coder_id = (i + 1) % rule->num_coders + 1;
 		rule->coders[i].left_dongle_id = i;
 		rule->coders[i].right_dongle_id = (i + 1) % rule->num_coders;
 		rule->coders[i].rule = rule;
