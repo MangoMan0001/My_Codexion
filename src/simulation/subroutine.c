@@ -6,34 +6,11 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 11:56:52 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/15 06:18:50 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:38:26 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-// static void	is_dongle_cooldown(t_rules *rule)
-// {
-// 	int			i;
-// 	long long	now;
-// 	int			l_usb;
-// 	int			r_usb;
-// 	t_coder		coder;
-
-// 	i = 0;
-// 	if (rule->is_simulation_active)
-// 		while (i < rule->num_coders)
-// 		{
-// 			coder = rule->coders[i];
-// 			l_usb = coder.left_dongle_id;
-// 			r_usb = coder.right_dongle_id;
-// 			now = get_time();
-// 			if (rule->dongle_cool_times[l_usb] < now  && \
-// 				rule->dongle_cool_times[r_usb] < now)
-// 				pthread_cond_broadcast(&rule->cond);
-// 			i++;
-// 		}
-// }
 
 static void	is_someone_burned_out(t_rules *rule)
 {
@@ -49,9 +26,10 @@ static void	is_someone_burned_out(t_rules *rule)
 		if (rule->time_to_burnout <= time)
 		{
 			print_log(&rule->coders[i], "burned out");
-			printf("%d, %d", rule->coders[i].left_coder_id, rule->coders[i].right_coder_id);
+			printf("%d, %d", rule->coders[i].left_coder_id, \
+					rule->coders[i].right_coder_id);
 			rule->is_simulation_active = FALSE;
-			return;
+			return ;
 		}
 		i++;
 	}
@@ -86,14 +64,13 @@ void	*monitor(void *arg)
 		if (rule->is_simulation_active == FALSE)
 		{
 			pthread_mutex_unlock(&rule->global_lock);
-			break;
+			break ;
 		}
 		is_simulation_finished(rule);
 		is_someone_burned_out(rule);
-		// is_dongle_cooldown(rule);
 		pthread_cond_broadcast(&rule->cond);
 		pthread_mutex_unlock(&rule->global_lock);
 		usleep(1000);
 	}
-	return NULL;
+	return (NULL);
 }

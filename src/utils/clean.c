@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 11:23:38 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/10 01:13:50 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:23:11 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_rule(t_rules *rule)
 
 void	destroy_mutexes(t_rules *r)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < r->num_coders)

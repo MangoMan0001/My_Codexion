@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:03:18 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/15 06:16:37 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:38:05 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,30 @@
 
 static int	init_malloc(t_rules *rule)
 {
-	rule->dongle_locks = (pthread_mutex_t *)my_calloc(sizeof(pthread_mutex_t) * rule->num_coders);
-	rule->dongle_cool_times = (long long *)my_calloc(sizeof(long long) * rule->num_coders);
+	rule->dongle_locks = (pthread_mutex_t *)my_calloc(sizeof(pthread_mutex_t) * \
+														rule->num_coders);
+	rule->dongle_cool_times = (long long *)my_calloc(sizeof(long long) * \
+														rule->num_coders);
 	rule->dongle_status = (int *)my_calloc(sizeof(int) * rule->num_coders);
 	rule->queue = (int *)my_calloc(sizeof(int) * rule->num_coders + 1);
 	rule->coders = (t_coder *)my_calloc(sizeof(t_coder) * rule->num_coders);
 	if (!rule->coders || !rule->dongle_locks || !rule->dongle_cool_times \
 		|| !rule->dongle_status || !rule->queue)
-		return 1;
-	return 0;
+		return (1);
+	return (0);
 }
 
 static int	init_pthread(t_rules *rule)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (pthread_mutex_init(&rule->global_lock, NULL))
-		return 1;
+		return (1);
 	if (pthread_cond_init(&rule->cond, NULL))
 	{
 		pthread_mutex_destroy(&rule->global_lock);
-		return 1;
+		return (1);
 	}
 	while (i < rule->num_coders)
 	{
@@ -45,11 +47,11 @@ static int	init_pthread(t_rules *rule)
 				pthread_mutex_destroy(&rule->dongle_locks[i]);
 			pthread_mutex_destroy(&rule->global_lock);
 			pthread_cond_destroy(&rule->cond);
-			return 1;
+			return (1);
 		}
 		i++;
 	}
-	return 0;
+	return (0);
 }
 
 static int	init_rule(t_rules *rule, char **argv)
@@ -68,15 +70,15 @@ static int	init_rule(t_rules *rule, char **argv)
 	else if (!strcmp(argv[8], "edf"))
 		rule->scheduler_type = EDF;
 	if (init_malloc(rule))
-		return 1;
+		return (1);
 	if (init_pthread(rule))
-		return 1;
-	return 0;
+		return (1);
+	return (0);
 }
 
-static void init_corder(t_rules *rule)
+static void	init_corder(t_rules *rule)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < rule->num_coders)
@@ -95,12 +97,12 @@ static void init_corder(t_rules *rule)
 int	init(t_rules *rule, int argc, char **argv)
 {
 	if (validate(argc, argv))
-		return 1;
+		return (1);
 	if (init_rule(rule, argv))
 	{
 		free_rule(rule);
-		return 1;
+		return (1);
 	}
 	init_corder(rule);
-	return 0;
+	return (0);
 }

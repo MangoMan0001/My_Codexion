@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 08:32:05 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/11 07:52:23 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:21:10 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	routine_refactoring(t_coder *coder, int *flag)
 {
-	t_rules 	*rule;
+	t_rules	*rule;
 
 	if (!*flag)
 		return ;
@@ -29,7 +29,7 @@ static void	routine_refactoring(t_coder *coder, int *flag)
 
 static void	routine_debug(t_coder *coder, int *flag)
 {
-	t_rules 	*rule;
+	t_rules	*rule;
 
 	if (!*flag)
 		return ;

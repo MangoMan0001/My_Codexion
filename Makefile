@@ -1,10 +1,10 @@
 # ==============================================================================
 #                                 VARIABLES
 # ==============================================================================
-NAME = codexion
+NAME 		= codexion
 
-CC = cc
-CFLAG   = -Wall -Wextra -Werror -pthread $(INCLUDES)
+CC 			= cc
+CFLAG   	= -Wall -Wextra -Werror -pthread $(INCLUDES)
 
 # ------------------------------------------------------------------------------
 #                                 SOURCE FILES
@@ -12,18 +12,18 @@ CFLAG   = -Wall -Wextra -Werror -pthread $(INCLUDES)
 SRC_DIR     = src
 
 SRC_CORE    = main.c codexion.c init.c validate.c
-SRC_SCHED   = scheduler.c
-SRC_SIM  = routine.c simulation.c compile.c subroutine.c
+SRC_SCHED   = scheduler.c heap.c
+SRC_SIM		= routine.c simulation.c compile.c subroutine.c
 SRC_UTILS   = clean.c time.c utils.c
 
-INCLUDES = -I./include
+INCLUDES 	= -I./include
 
 SRCS        = $(addprefix $(SRC_DIR)/core/, $(SRC_CORE)) \
 			  $(addprefix $(SRC_DIR)/scheduler/, $(SRC_SCHED)) \
 			  $(addprefix $(SRC_DIR)/simulation/, $(SRC_SIM)) \
 			  $(addprefix $(SRC_DIR)/utils/, $(SRC_UTILS)) \
 
-OBJS = $(SRCS:.c=.o)
+OBJS 		= $(SRCS:.c=.o)
 
 # ==============================================================================
 #                                   RULES
@@ -46,7 +46,8 @@ val: re
 # helgrind
 run: re
 		@make clean
-		@./codexion 5 901 200 50 50 10 100 edf
+		@valgrind --tool=helgrind -q ./codexion 5 3000 100 100 300 5 100 edf
+		@valgrind --leak-check=full -q ./codexion 5 3000 100 100 300 5 100 edf
 
 clean:
 		@echo "CLeaning..."

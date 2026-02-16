@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 22:21:18 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/11 07:52:10 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:38:59 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,38 @@ static int	can_i_get_the_usb(t_coder *coder, t_rules *rule, int *flag)
 
 	*flag = rule->is_simulation_active;
 	if (*flag == FALSE)
-		return TRUE;
+		return (TRUE);
 	l_usb = coder->left_dongle_id;
 	r_usb = coder->right_dongle_id;
 	status = rule->dongle_status;
 	cool_times = rule->dongle_cool_times;
 	if (scheduler(coder) == FALSE) // 自分が両隣のコーダーより優先か
-		return FALSE;
+		return (FALSE);
 	if (status[l_usb] || status[r_usb]) // 両隣のUSBが机の上に置いてあるか
-		return FALSE;
+		return (FALSE);
 	now = get_time();
-	if (now < cool_times[l_usb] ||  now < cool_times[r_usb]) // 両隣のUSBのクールダウンが終わってるか
-		return FALSE;
-	return TRUE;
+	if (now < cool_times[l_usb] || now < cool_times[r_usb]) // 両隣のUSBのクールダウンが終わってるか
+		return (FALSE);
+	return (TRUE);
 }
 
 static void	just_compiling(t_coder *coder)
 {
 	t_rules		*rule;
+	int			first;
+	int			second;
 
 	rule = coder->rule;
-	pthread_mutex_lock(&rule->dongle_locks[coder->left_dongle_id]);
+	first = coder->left_dongle_id;
+	second = coder->right_dongle_id;
+	if (coder->right_coder_id < coder->left_coder_id)
+	{
+		first = coder->right_dongle_id;
+		second = coder->left_dongle_id;
+	}
+	pthread_mutex_lock(&rule->dongle_locks[first]);
 	print_log_lock(coder, "has taken a dongle");
-	pthread_mutex_lock(&rule->dongle_locks[coder->right_dongle_id]);
+	pthread_mutex_lock(&rule->dongle_locks[second]);
 	print_log_lock(coder, "has taken a dongle");
 	print_log_lock(coder, "is compiling");
 	just_sleep(rule->time_to_compile, rule);

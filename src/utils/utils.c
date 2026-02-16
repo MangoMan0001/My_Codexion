@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:02:33 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/11 07:49:40 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:38:46 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	*my_calloc(size_t size)
 
 	result = malloc(size);
 	if (!result)
-		return NULL;
-	return memset(result, 0, size);
+		return (NULL);
+	return (memset(result, 0, size));
 }
 
 void	print_log(t_coder *coder, char *msg)

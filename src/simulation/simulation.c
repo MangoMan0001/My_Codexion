@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 08:52:49 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/12 00:32:10 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:21:34 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static int	create_threads(t_rules *rule)
 	while (i < rule->num_coders)
 	{
 		rule->coders[i].last_compile_start = rule->start_time;
-		if (pthread_create(&rule->coders[i].tid, NULL, routine, &rule->coders[i]))
+		if (pthread_create(&rule->coders[i].tid, NULL, \
+							routine, &rule->coders[i]))
 		{
 			rule->is_simulation_active = FALSE;
 			while (--i >= 0)
@@ -30,8 +31,8 @@ static int	create_threads(t_rules *rule)
 		}
 		i++;
 	}
-	if(pthread_create(&rule->monitor, NULL, monitor, rule))
-		return 1;
+	if (pthread_create(&rule->monitor, NULL, monitor, rule))
+		return (1);
 	return (0);
 }
 

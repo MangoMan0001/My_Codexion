@@ -6,13 +6,14 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/15 04:12:32 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:37:44 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CODEXION_H
 # define CODEXION_H
 
+# define _DEFAULT_SOURCE
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -98,16 +99,18 @@ struct s_rules
 // プロトタイプ宣言
 
 // core
-int	codexion(int argc, char **argv);
-int	validate(int argc, char **argv);
-int	init(t_rules *rule, int argc, char **argv);
+int			codexion(int argc, char **argv);
+int			validate(int argc, char **argv);
+int			init(t_rules *rule, int argc, char **argv);
 
 // scheduler
-int		scheduler(t_coder *coder);
-void	pop_queue(t_coder *coder);
+int			scheduler(t_coder *coder);
+void		pop_queue(t_coder *coder);
+void		shift_up(int n, t_rules *rule);
+int			compare_coders(int id1, int id2, t_rules *rule);
 
 // simulation
-int 		simulation(t_rules *rule);
+int			simulation(t_rules *rule);
 void		*routine(void *arg);
 void		routine_compile(t_coder *coder, int *flag);
 void		*monitor(void *arg);
@@ -120,6 +123,5 @@ long long	get_time(void);
 void		*my_calloc(size_t size);
 void		print_log(t_coder *coder, char *msg);
 void		print_log_lock(t_coder *coder, char *msg);
-
 
 #endif
