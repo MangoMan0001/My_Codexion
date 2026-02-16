@@ -1,0 +1,116 @@
+*This project has been created as part of the 42 curriculum by ayhirose.*
+
+# Codexion
+
+### Description
+「食事をする哲学者問題」をシミュレーションし、C言語における並行処理と同期制御のスキルを獲得する。
+
+共通目標
+- プログラム、プロセス、スレッド、レジスタについて理解する。
+- 並行処理に必要な同期制御を実装する。
+- スケジューリングアルゴリズム（FIFO / EDF）の実装による最適化。
+- ヒープ構造を用いた優先度付きキューの実装。
+
+個人目標
+- C言語でもオブジェクト指向言語のように多態性を持たせる。
+
+ディレクトリ構成
+```
+.
+├── Makefile                # ビルド設定 (all, clean, fclean, re, run等)
+├── README                  # プロジェクトドキュメント
+├── include/
+│   └── codexion.h          # ヘッダーファイル (構造体定義、プロトタイプ宣言)
+└── coders/                 # ソースコードディレクトリ
+    ├── core/               # 【プログラムの初期化・統括】
+    │   ├── main.c          # エントリーポイント
+    │   ├── codexion.c      # 実行フローの統括と終了処理
+    │   ├── init.c          # 構造体・Mutex・スレッドの初期化
+    │   └── validate.c      # コマンドライン引数のバリデーション
+    ├── scheduler/          # 【スケジューリング機能】
+    │   ├── scheduler.c     # ドングル取得の調停ロジック (FIFO / EDF)
+    │   └── heap.c          # 優先度付きキュー (Min-Heap) の実装
+    ├── simulation/         # 【スレッド動作・シミュレーション】
+    │   ├── simulation.c    # スレッド生成と終了待ち合わせ
+    │   ├── routine.c       # コーダーの行動サイクル (Compile -> Debug -> Refactor)
+    │   ├── compile.c       # コンパイル処理 (Mutexロック・デッドロック回避)
+    │   └── subroutine.c    # 監視スレッド用処理 (燃え尽き・終了判定)
+    └── utils/              # 【ユーティリティ】
+        ├── time.c          # 時間計測・管理 (gettimeofdayラッパー)
+        ├── clean.c         # メモリ解放・Mutex破棄
+        └── utils.c         # 汎用ヘルパー関数 (calloc等)
+```
+
+### Instructions
+
+プログラムは**Python 3.10以上**での実行が前提で作成されています。
+
+1. **コンパイル**
+```bash
+make
+```
+
+2. **プログラムの実行**
+```bash
+./codexion [coders] [burnout] [compile] [debug] [refactor] [must_compile] [cooldown] [scheduler]
+```
+引数の説明:
+
+coders: コーダー（およびドングル）の数。
+
+time_to_burnout: コンパイルできずにこの時間が経過するとBurnout（死亡）する (ms)。
+
+time_to_compile: コンパイルにかかる時間 (ms)。
+
+time_to_debug: デバッグにかかる時間 (ms)。
+
+time_to_refactor: リファクタリングにかかる時間 (ms)。
+
+must_compile_count: 各コーダーが最低何回コンパイルすれば終了するか（0の場合はBurnoutするまで無限）。
+
+dongle_cooldown: ドングル返却後のクールダウン時間 (ms)。
+
+scheduler: ドングル待ち行列のアルゴリズム (fifo または edf)。
+
+実行例
+```bash
+./codexion 5 800 200 200 200 7 100 edf
+```
+
+## Additional sections
+
+### Blocking cases handled
+
+**デッドロックの防止**
+取れるUSBが存在し、左右の燃え尽き具合をみて自身が取るべき時に取る仕組みとなってます。
+それ以外では保持せず待機となるのでコフマンの条件から保持・待機が外れます。
+
+**スタベーション防止**
+EDFで燃え尽きそうな人からUSBを取れるようにしました。
+が、処理が早ければFIFOでもほぼ飢餓になりません。
+
+**クールダウン処理**
+can_i_get_the_usb関数内で、クールダウンが終わってるかを確認しています。
+
+**正確なバーンナウト検出**
+独立したスレッドで1msごとに確認しています。
+
+**ログのシリアライゼーション**
+global_lockはprintfも制御しています。
+
+### Thread synchronization mechanisms
+USBを待機する部分は動的に起床する必要があるのでusleepではなく起床できるCondで寝かせました。
+ドングルはそれぞれMutex化してますが、そもそも自分が取れるかどうかをコーダースレッド自身が判断するので
+ドングルMutexを待機するということは起きません。 \
+すべての共有情報はruleとして構造体で定義されていて、そのすべての情報はglobal_keyをlockすることでアクセスできます。
+すべての情報を一つのMutexで一括管理しているのでデータ管理がしやすく、競合状態を防ぎやすいです。
+
+### Resources
+
+AI (Gemini)
+- 設計のテンプレート作成
+- エラーログの解析
+- Docstring作成
+
+過去のPhilosopherに残されたありがたい文献
+- 課題理解
