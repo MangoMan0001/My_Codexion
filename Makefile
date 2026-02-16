@@ -9,19 +9,19 @@ CFLAG   	= -Wall -Wextra -Werror -pthread $(INCLUDES)
 # ------------------------------------------------------------------------------
 #                                 SOURCE FILES
 # ------------------------------------------------------------------------------
-SRC_DIR     = src
+CODE_DIR	= coders
 
-SRC_CORE    = main.c codexion.c init.c validate.c
-SRC_SCHED   = scheduler.c heap.c
-SRC_SIM		= routine.c simulation.c compile.c subroutine.c
-SRC_UTILS   = clean.c time.c utils.c
+CODE_CORE	= main.c codexion.c init.c validate.c
+CODE_SCHED	= scheduler.c heap.c
+CODE_SIM	= routine.c simulation.c compile.c subroutine.c
+CODE_UTILS	= clean.c time.c utils.c
 
 INCLUDES 	= -I./include
 
-SRCS        = $(addprefix $(SRC_DIR)/core/, $(SRC_CORE)) \
-			  $(addprefix $(SRC_DIR)/scheduler/, $(SRC_SCHED)) \
-			  $(addprefix $(SRC_DIR)/simulation/, $(SRC_SIM)) \
-			  $(addprefix $(SRC_DIR)/utils/, $(SRC_UTILS)) \
+SRCS        = $(addprefix $(CODE_DIR)/core/, $(CODE_CORE)) \
+			  $(addprefix $(CODE_DIR)/scheduler/, $(CODE_SCHED)) \
+			  $(addprefix $(CODE_DIR)/simulation/, $(CODE_SIM)) \
+			  $(addprefix $(CODE_DIR)/utils/, $(CODE_UTILS))
 
 OBJS 		= $(SRCS:.c=.o)
 
@@ -43,11 +43,9 @@ $(NAME): $(OBJS)
 val: re
 		@valgrind --tool=helgrind -q ./codexion
 
-# helgrind
 run: re
 		@make clean
-		@valgrind --tool=helgrind -q ./codexion 5 3000 100 100 300 5 100 edf
-		@valgrind --leak-check=full -q ./codexion 5 3000 100 100 300 5 100 edf
+		@./codexion 5 800 200 200 200 7 100 edf
 
 clean:
 		@echo "CLeaning..."
