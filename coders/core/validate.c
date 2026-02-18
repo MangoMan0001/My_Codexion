@@ -6,12 +6,13 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:03:15 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/16 17:17:38 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:40:30 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
+// char単位で数字かどうか
 static int	is_digit(char c)
 {
 	if (!('0' <= c && c <= '9'))
@@ -19,6 +20,7 @@ static int	is_digit(char c)
 	return (0);
 }
 
+// intかどうか
 static int	is_int(char *str)
 {
 	int		i;
@@ -44,6 +46,7 @@ static int	is_int(char *str)
 	return (0);
 }
 
+// validation統括関数
 int	validate(int argc, char **argv)
 {
 	int	i;

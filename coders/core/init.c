@@ -6,12 +6,13 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:03:18 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/16 18:50:00 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:40:37 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
+// すべての動的メモリ確保をまとめて行う
 static int	init_malloc(t_rules *rule)
 {
 	rule->dongle_locks = (pthread_mutex_t *)my_calloc(sizeof(pthread_mutex_t) * \
@@ -27,6 +28,7 @@ static int	init_malloc(t_rules *rule)
 	return (0);
 }
 
+// pthreadのリソース確保
 static int	init_pthread(t_rules *rule)
 {
 	int	i;
@@ -54,6 +56,7 @@ static int	init_pthread(t_rules *rule)
 	return (0);
 }
 
+// rule構造体の初期化
 static int	init_rule(t_rules *rule, char **argv)
 {
 	memset(rule, 0, sizeof(t_rules));
@@ -76,7 +79,8 @@ static int	init_rule(t_rules *rule, char **argv)
 	return (0);
 }
 
-static void	init_corder(t_rules *rule)
+// coder構造体の初期化
+static void	init_coder(t_rules *rule)
 {
 	int	i;
 
@@ -94,6 +98,7 @@ static void	init_corder(t_rules *rule)
 	}
 }
 
+// 初期化統括関数
 int	init(t_rules *rule, int argc, char **argv)
 {
 	if (validate(argc, argv))
@@ -103,6 +108,6 @@ int	init(t_rules *rule, int argc, char **argv)
 		free_rule(rule);
 		return (1);
 	}
-	init_corder(rule);
+	init_coder(rule);
 	return (0);
 }

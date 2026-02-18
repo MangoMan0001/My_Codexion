@@ -6,12 +6,13 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 08:52:49 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/16 17:21:34 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:54:06 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
+// threadの分岐を行う関数
 static int	create_threads(t_rules *rule)
 {
 	int	i;
@@ -36,6 +37,7 @@ static int	create_threads(t_rules *rule)
 	return (0);
 }
 
+// threadの統合を待つ関数
 static void	join_threads(t_rules *rule)
 {
 	int	i;
@@ -49,6 +51,7 @@ static void	join_threads(t_rules *rule)
 	pthread_join(rule->monitor, NULL);
 }
 
+// thread分岐統括関数
 int	simulation(t_rules *rules)
 {
 	if (create_threads(rules))

@@ -6,12 +6,19 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 22:21:18 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/16 18:42:45 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:52:30 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
+/*
+** usbを取っていいか教えてくれる関数
+** 以下の条件がクリアすればTRUEを返す
+** ・Queu上で左右のコーダーより優先されるか
+** ・誰にも予約されていないか
+** ・クールダウンが終わっているか
+*/
 static int	can_i_get_the_usb(t_coder *coder, t_rules *rule, int *flag)
 {
 	int			l_usb;
@@ -37,6 +44,12 @@ static int	can_i_get_the_usb(t_coder *coder, t_rules *rule, int *flag)
 	return (TRUE);
 }
 
+/*
+** compileの主関数、以下を行う
+** ・usbを確保
+** ・寝る
+** ・usbを解法
+*/
 static void	just_compiling(t_coder *coder, t_rules *rule)
 {
 	int			first;
@@ -66,6 +79,12 @@ static void	just_compiling(t_coder *coder, t_rules *rule)
 	pthread_mutex_unlock(&rule->dongle_locks[second]);
 }
 
+/*
+** uabを予約する、以下の情報を更新
+** ・usbの使用状況 -> TRUE
+** ・queueからcoderを取り除く
+** ・最後のコンパイル時間を更新
+*/
 static void	reserve_usb(t_coder *coder)
 {
 	t_rules		*rule;
@@ -77,6 +96,11 @@ static void	reserve_usb(t_coder *coder)
 	coder->last_compile_start = get_time();
 }
 
+/*
+** uabを机に置き、以下の情報を更新
+** ・usbの使用状況 -> FALSE
+** ・usbのクールダウン時間
+*/
 static void	return_usb(t_coder *coder)
 {
 	t_rules		*rule;
@@ -91,6 +115,7 @@ static void	return_usb(t_coder *coder)
 	coder->compile_count++;
 }
 
+// compile統括関数
 void	routine_compile(t_coder *coder, int *flag)
 {
 	t_rules		*rule;

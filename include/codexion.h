@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/16 17:37:44 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/18 17:08:50 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_rules	t_rules;
 
 /*
 ** ‍コーダー個人の構造体
-** 各スレッドが自分の状態を管理するために作成し、管理する。
+** 各スレッドが自分の状態を管理する。
 */
 typedef struct s_coder
 {
@@ -54,25 +54,25 @@ typedef struct s_coder
 	int				compile_count; // 今までにコンパイルした回数
 	long long		last_compile_start; // 最後にコンパイルを開始した時刻 (ms)
 	long long		enqueue_time; // queueに登録した時間（ms）fifoのみ使用
-	int				is_in_queue; //queueに並んでいるのかいないのか
+	int				is_in_queue; //queueに並んでいるか
 	// --- 共有データへの参照 ---
 	t_rules			*rule; // 親（全体設定）へのポインタ
 }	t_coder;
 
 /*
 ** 全体ルール・共有リソース構造体
-** Main関数で一つだけ作られ、全員がこれを参照する。
+** Main threadで一つだけ作られ、全員がこれを参照する。
 ** 参照/書き換えはすべてglobal_lockを通して行う。
 */
 struct s_rules
 {
-	// --- 設定値 (Read Only) ---
+	// --- 設定値 ---
 	int				num_coders;
 	long long		time_to_burnout; // Burnoutまでの時間
 	long long		time_to_compile;
 	long long		time_to_debug;
 	long long		time_to_refactor;
-	int				must_compile_count; // 目標回数 (-1なら無限)
+	int				must_compile_count; // 目標回数
 	int				dongle_cooldown; // ドングルのクールダウン時間 (ms)
 	int				scheduler_type; // 優先順位付のタイプ
 	// --- 時間管理 ---
@@ -93,7 +93,7 @@ struct s_rules
 	// --- 子データ ---
 	t_coder			*coders; // コーダー配列
 	// --- モニター ---
-	pthread_t		monitor;
+	pthread_t		monitor; //monitorスレッドへのポインタ
 };
 
 // プロトタイプ宣言
@@ -118,7 +118,7 @@ void		*monitor(void *arg);
 // utils
 void		free_rule(t_rules *rule);
 void		destroy_mutexes(t_rules *r);
-void		just_sleep(long long time, t_rules *rules);
+int			just_sleep(long long time, t_rules *rules);
 long long	get_time(void);
 void		*my_calloc(size_t size);
 void		print_log(t_coder *coder, char *msg);

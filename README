@@ -2,115 +2,114 @@
 
 # Codexion
 
-### Description
-「食事をする哲学者問題」をシミュレーションし、C言語における並行処理と同期制御のスキルを獲得する。
+## Description
+This project simulates the "Dining Philosophers" problem to master concurrency and synchronization control in C.
 
-共通目標
-- プログラム、プロセス、スレッド、レジスタについて理解する。
-- 並行処理に必要な同期制御を実装する。
-- スケジューリングアルゴリズム（FIFO / EDF）の実装による最適化。
-- ヒープ構造を用いた優先度付きキューの実装。
+**Common Goals**
+- Understand programs, processes, threads, and registers.
+- Implement necessary synchronization controls for concurrent processing.
+- Optimize resource allocation using scheduling algorithms (FIFO / EDF).
+- Implement a priority queue using a Min-Heap structure.
 
-個人目標
-- C言語でもオブジェクト指向言語のように多態性を持たせる。
+**Personal Goal**
+- Implement polymorphism-like behavior in C, mimicking object-oriented programming patterns.
 
-ディレクトリ構成
-```
+## Directory Structure
+```text
 .
-├── Makefile                # ビルド設定 (all, clean, fclean, re, run等)
-├── README                  # プロジェクトドキュメント
+├── Makefile                # Build configuration (all, clean, fclean, re, run, etc.)
+├── README.md               # Project documentation
 ├── include/
-│   └── codexion.h          # ヘッダーファイル (構造体定義、プロトタイプ宣言)
-└── coders/                 # ソースコードディレクトリ
-    ├── core/               # 【プログラムの初期化・統括】
-    │   ├── main.c          # エントリーポイント
-    │   ├── codexion.c      # 実行フローの統括と終了処理
-    │   ├── init.c          # 構造体・Mutex・スレッドの初期化
-    │   └── validate.c      # コマンドライン引数のバリデーション
-    ├── scheduler/          # 【スケジューリング機能】
-    │   ├── scheduler.c     # ドングル取得の調停ロジック (FIFO / EDF)
-    │   └── heap.c          # 優先度付きキュー (Min-Heap) の実装
-    ├── simulation/         # 【スレッド動作・シミュレーション】
-    │   ├── simulation.c    # スレッド生成と終了待ち合わせ
-    │   ├── routine.c       # コーダーの行動サイクル (Compile -> Debug -> Refactor)
-    │   ├── compile.c       # コンパイル処理 (Mutexロック・デッドロック回避)
-    │   └── subroutine.c    # 監視スレッド用処理 (燃え尽き・終了判定)
-    └── utils/              # 【ユーティリティ】
-        ├── time.c          # 時間計測・管理 (gettimeofdayラッパー)
-        ├── clean.c         # メモリ解放・Mutex破棄
-        └── utils.c         # 汎用ヘルパー関数 (calloc等)
-```
+│   └── codexion.h          # Header file (Struct definitions, Prototypes)
+└── coders/                 # Source code directory
+    ├── core/               # [Initialization & Main Control]
+    │   ├── main.c          # Entry point
+    │   ├── codexion.c      # Main flow control & cleanup
+    │   ├── init.c          # Initialization of structs, mutexes, and threads
+    │   └── validate.c      # Argument validation
+    ├── scheduler/          # [Scheduling Logic]
+    │   ├── scheduler.c     # Arbitration logic (FIFO / EDF)
+    │   └── heap.c          # Priority Queue (Min-Heap) implementation
+    ├── simulation/         # [Thread Routine & Simulation]
+    │   ├── simulation.c    # Thread creation and joining
+    │   ├── routine.c       # Coder's life cycle (Compile -> Debug -> Refactor)
+    │   ├── compile.c       # Compilation logic (Mutex locking & deadlock prevention)
+    │   └── subroutine.c    # Monitor thread (Burnout detection & termination)
+    └── utils/              # [Utilities]
+        ├── time.c          # Time management (gettimeofday wrapper)
+        ├── clean.c         # Memory freeing & Mutex destruction
+        └── utils.c         # Helper functions
 
 ### Instructions
 
-プログラムは**Python 3.10以上**での実行が前提で作成されています。
 
-1. **コンパイル**
+1. **Compilation**
 ```bash
 make
 ```
 
-2. **プログラムの実行**
+2. **Execuion**
 ```bash
 ./codexion [coders] [burnout] [compile] [debug] [refactor] [must_compile] [cooldown] [scheduler]
 ```
-引数の説明:
+Arguments:
 
-coders: コーダー（およびドングル）の数。
+coders: Number of coders (and dongles).
 
-time_to_burnout: コンパイルできずにこの時間が経過するとBurnout（死亡）する (ms)。
+time_to_burnout: Time in ms before a coder burns out if they havent started compiling.
 
-time_to_compile: コンパイルにかかる時間 (ms)。
+time_to_compile: Duration of compilation in ms.
 
-time_to_debug: デバッグにかかる時間 (ms)。
+time_to_debug: Duration of debugging in ms.
 
-time_to_refactor: リファクタリングにかかる時間 (ms)。
+time_to_refactor: Duration of refactoring in ms.
 
-must_compile_count: 各コーダーが最低何回コンパイルすれば終了するか（0の場合はBurnoutするまで無限）。
+must_compile_count: Number of times each coder must compile to stop the simulation (0 for infinite).
 
-dongle_cooldown: ドングル返却後のクールダウン時間 (ms)。
+dongle_cooldown: Cooldown time in ms after returning a dongle.
 
-scheduler: ドングル待ち行列のアルゴリズム (fifo または edf)。
+scheduler: Arbitration policy (fifo or edf).
 
-実行例
+Example:
 ```bash
-./codexion 5 800 200 200 200 7 100 edf
+./codexion 5 910 200 200 200 7 100 edf
 ```
 
 ## Additional sections
 
 ### Blocking cases handled
+To ensure a robust simulation, the following concurrency issues have been addressed:
 
-**デッドロックの防止**
-取れるUSBが存在し、左右の燃え尽き具合をみて自身が取るべき時に取る仕組みとなってます。
-それ以外では保持せず待機となるのでコフマンの条件から保持・待機が外れます。
+**Deadlock Prevention**
+The system checks if the required USB dongles are available and assesses the coder's priority based on burnout status before attempting to acquire resources. If the conditions are not met, the coder waits without holding any resources. This breaks Coffman's "Hold and Wait" condition, effectively preventing deadlocks.
 
-**スタベーション防止**
-EDFで燃え尽きそうな人からUSBを取れるようにしました。
-が、処理が早ければFIFOでもほぼ飢餓になりません。
+**Starvation Prevention**
+The EDF (Earliest Deadline First) scheduler ensures that coders closest to burnout are prioritized for USB access. While FIFO is also implemented, the high processing speed of the simulation means starvation is rare even with simple queuing.
 
-**クールダウン処理**
-can_i_get_the_usb関数内で、クールダウンが終わってるかを確認しています。
+**Cooldown Handling**
+Dongle availability is verified within the can_i_get_the_usb function, which strictly enforces the cooldown period before a dongle can be reacquired.
 
-**正確なバーンナウト検出**
-独立したスレッドで1msごとに確認しています。
+**Precise Burnout Detection**
+An independent monitor thread checks the status of all coders every 1ms, ensuring that burnout is detected and reported within the required 10ms tolerance.
 
-**ログのシリアライゼーション**
-global_lockはprintfも制御しています。
+**Log Serialization**
+The global_lock mutex controls all calls to printf, ensuring that log messages are serialized and do not interleave or scramble.
 
 ### Thread synchronization mechanisms
-USBを待機する部分は動的に起床する必要があるのでusleepではなく起床できるCondで寝かせました。
-ドングルはそれぞれMutex化してますが、そもそも自分が取れるかどうかをコーダースレッド自身が判断するので
-ドングルMutexを待機するということは起きません。 \
-すべての共有情報はruleとして構造体で定義されていて、そのすべての情報はglobal_keyをlockすることでアクセスできます。
-すべての情報を一つのMutexで一括管理しているのでデータ管理がしやすく、競合状態を防ぎやすいです。
+**Condition Variables vs. Sleep**
+To manage waiting threads efficiently, Condition Variables (pthread_cond_t) are used instead of usleep. This allows threads to sleep while waiting for resources and be dynamically woken up precisely when needed, reducing unnecessary CPU usage.
+
+**Mutex Management Strategy**
+While each dongle has its own Mutex, the coder threads themselves decide whether they can acquire the dongles before attempting to lock them. This means threads rarely block on the dongle mutexes themselves, preventing chain-blocking.
+
+**Centralized Data Management**
+All shared information is defined in a rule structure. Access to this data is universally protected by a single global_lock. Managing all shared states with one central mutex simplifies data management and makes it significantly easier to prevent race conditions.
 
 ### Resources
+AI Tools (Gemini)
+- Design template creation.
+- Error log analysis.
+- Docstring generation.
 
-AI (Gemini)
-- 設計のテンプレート作成
-- エラーログの解析
-- Docstring作成
-
-過去のPhilosopherに残されたありがたい文献
-- 課題理解
+References
+- Literature on the Dining Philosophers problem (assignment understanding).

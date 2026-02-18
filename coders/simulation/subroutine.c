@@ -6,12 +6,13 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 11:56:52 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/16 17:38:26 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:57:45 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
+// 燃え尽きが発生したかを確認する関数
 static void	is_someone_burned_out(t_rules *rule)
 {
 	int			i;
@@ -26,8 +27,6 @@ static void	is_someone_burned_out(t_rules *rule)
 		if (rule->time_to_burnout <= time)
 		{
 			print_log(&rule->coders[i], "burned out");
-			printf("%d, %d", rule->coders[i].left_coder_id, \
-					rule->coders[i].right_coder_id);
 			rule->is_simulation_active = FALSE;
 			return ;
 		}
@@ -35,6 +34,7 @@ static void	is_someone_burned_out(t_rules *rule)
 	}
 }
 
+// シミュレーションが終了したかを確認する関数
 static void	is_simulation_finished(t_rules *rule)
 {
 	int	i;
@@ -53,6 +53,7 @@ static void	is_simulation_finished(t_rules *rule)
 	rule->is_simulation_active = FALSE;
 }
 
+// Monitor thread entry point.
 void	*monitor(void *arg)
 {
 	t_rules	*rule;

@@ -6,12 +6,13 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 08:32:05 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/16 17:21:10 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:55:11 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
+// refactoring関数
 static void	routine_refactoring(t_coder *coder, int *flag)
 {
 	t_rules	*rule;
@@ -27,6 +28,7 @@ static void	routine_refactoring(t_coder *coder, int *flag)
 	just_sleep(rule->time_to_refactor, rule);
 }
 
+// debug関数
 static void	routine_debug(t_coder *coder, int *flag)
 {
 	t_rules	*rule;
@@ -42,6 +44,7 @@ static void	routine_debug(t_coder *coder, int *flag)
 	just_sleep(rule->time_to_debug, rule);
 }
 
+// Coder_thread entry point.
 void	*routine(void *arg)
 {
 	t_coder	*coder;

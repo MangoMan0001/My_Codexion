@@ -6,12 +6,13 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:02:33 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/16 17:38:46 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:35:50 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
+// callocの再実装
 void	*my_calloc(size_t size)
 {
 	void	*result;
@@ -22,6 +23,7 @@ void	*my_calloc(size_t size)
 	return (memset(result, 0, size));
 }
 
+// logを出力
 void	print_log(t_coder *coder, char *msg)
 {
 	long long	time;
@@ -32,6 +34,7 @@ void	print_log(t_coder *coder, char *msg)
 	printf("%lld %d %s\n", time, coder->id, msg);
 }
 
+// Mutex保護をしてからlogを出力
 void	print_log_lock(t_coder *coder, char *msg)
 {
 	long long	time;
