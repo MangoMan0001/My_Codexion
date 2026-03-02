@@ -6,13 +6,13 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:58:10 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/16 18:47:21 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/03 02:15:34 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-//配列の要素間入れ替え
+// Swapping elements within an array
 static void	swap_queue(int i, int j, t_rules *rule)
 {
 	int	temp;
@@ -22,7 +22,7 @@ static void	swap_queue(int i, int j, t_rules *rule)
 	rule->queue[j] = temp;
 }
 
-//id1がid2より優先されるべきかを返す
+// Returns whether id1 should take precedence over id2
 int	compare_coders(int id1, int id2, t_rules *rule)
 {
 	long long	time1;
@@ -48,7 +48,7 @@ int	compare_coders(int id1, int id2, t_rules *rule)
 	return (FALSE);
 }
 
-// nがヒープ構造状最適な位置へと上る
+// n moves up to its optimal position within the heap structure.
 void	shift_up(int n, t_rules *rule)
 {
 	while (1 < n && compare_coders(rule->queue[n], rule->queue[n / 2], rule))
@@ -58,7 +58,7 @@ void	shift_up(int n, t_rules *rule)
 	}
 }
 
-// nがヒープ構造状最適な位置へと下る
+// n descends to its optimal position within the heap structure.
 static void	shift_down(int n, t_rules *rule)
 {
 	int		left;
@@ -83,7 +83,7 @@ static void	shift_down(int n, t_rules *rule)
 	}
 }
 
-// 優先キューからcoderを抜いて、ヒープ構造を修正する
+// Remove the coder from the priority queue and modify the heap structure.
 void	pop_queue(t_coder *coder)
 {
 	t_rules	*rule;

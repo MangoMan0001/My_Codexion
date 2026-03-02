@@ -16,7 +16,7 @@ CODE_SCHED	= scheduler.c heap.c
 CODE_SIM	= routine.c simulation.c compile.c subroutine.c
 CODE_UTILS	= clean.c time.c utils.c
 
-INCLUDES 	= -I./include
+INCLUDES 	= -I./coders/include
 
 SRCS        = $(addprefix $(CODE_DIR)/core/, $(CODE_CORE)) \
 			  $(addprefix $(CODE_DIR)/scheduler/, $(CODE_SCHED)) \

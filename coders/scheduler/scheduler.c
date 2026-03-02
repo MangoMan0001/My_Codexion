@@ -6,13 +6,13 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:58:10 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/16 18:47:24 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/03 02:16:18 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-//スケジューリング統括関数
+// Scheduler Control Function
 int	scheduler(t_coder *coder)
 {
 	t_rules	*rule;

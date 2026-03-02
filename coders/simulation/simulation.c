@@ -6,13 +6,13 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 08:52:49 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/18 16:54:06 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/03 02:19:56 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-// threadの分岐を行う関数
+// Function for thread branching
 static int	create_threads(t_rules *rule)
 {
 	int	i;
@@ -25,7 +25,9 @@ static int	create_threads(t_rules *rule)
 		if (pthread_create(&rule->coders[i].tid, NULL, \
 							routine, &rule->coders[i]))
 		{
+			pthread_mutex_lock(&rule->global_lock);
 			rule->is_simulation_active = FALSE;
+			pthread_mutex_unlock(&rule->global_lock);
 			while (--i >= 0)
 				pthread_join(rule->coders[i].tid, NULL);
 			return (1);
@@ -33,11 +35,18 @@ static int	create_threads(t_rules *rule)
 		i++;
 	}
 	if (pthread_create(&rule->monitor, NULL, monitor, rule))
+	{
+		pthread_mutex_lock(&rule->global_lock);
+		rule->is_simulation_active = FALSE;
+		pthread_mutex_unlock(&rule->global_lock);
+		while (--i >= 0)
+			pthread_join(rule->coders[i].tid, NULL);
 		return (1);
+	}
 	return (0);
 }
 
-// threadの統合を待つ関数
+// Function waiting for thread integration
 static void	join_threads(t_rules *rule)
 {
 	int	i;
@@ -51,7 +60,7 @@ static void	join_threads(t_rules *rule)
 	pthread_join(rule->monitor, NULL);
 }
 
-// thread分岐統括関数
+// Tread Branching Control Function
 int	simulation(t_rules *rules)
 {
 	if (create_threads(rules))

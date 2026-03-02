@@ -6,18 +6,18 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 22:21:18 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/18 16:52:30 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/03 02:18:21 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
 /*
-** usbを取っていいか教えてくれる関数
-** 以下の条件がクリアすればTRUEを返す
-** ・Queu上で左右のコーダーより優先されるか
-** ・誰にも予約されていないか
-** ・クールダウンが終わっているか
+** Function that checks if the USB can be removed
+** Returns TRUE if the following conditions are met:
+** - Has priority over the left and right encoders in the queue
+** - Is not reserved by anyone
+** - Has completed its cooldown period
 */
 static int	can_i_get_the_usb(t_coder *coder, t_rules *rule, int *flag)
 {
@@ -45,10 +45,10 @@ static int	can_i_get_the_usb(t_coder *coder, t_rules *rule, int *flag)
 }
 
 /*
-** compileの主関数、以下を行う
-** ・usbを確保
-** ・寝る
-** ・usbを解法
+** Main function for compile, performs the following:
+** - Secure USB
+** - Sleep
+** - Release USB
 */
 static void	just_compiling(t_coder *coder, t_rules *rule)
 {
@@ -80,10 +80,10 @@ static void	just_compiling(t_coder *coder, t_rules *rule)
 }
 
 /*
-** uabを予約する、以下の情報を更新
-** ・usbの使用状況 -> TRUE
-** ・queueからcoderを取り除く
-** ・最後のコンパイル時間を更新
+** Reserve uab, update the following information
+** - USB usage status -> TRUE
+** - Remove coder from queue
+** - Update last compile time
 */
 static void	reserve_usb(t_coder *coder)
 {
@@ -97,9 +97,9 @@ static void	reserve_usb(t_coder *coder)
 }
 
 /*
-** uabを机に置き、以下の情報を更新
-** ・usbの使用状況 -> FALSE
-** ・usbのクールダウン時間
+** Place the uab on the desk and update the following information
+** - USB usage status -> FALSE
+** - USB cool-down time
 */
 static void	return_usb(t_coder *coder)
 {
@@ -115,7 +115,7 @@ static void	return_usb(t_coder *coder)
 	coder->compile_count++;
 }
 
-// compile統括関数
+// Compile Control Function
 void	routine_compile(t_coder *coder, int *flag)
 {
 	t_rules		*rule;

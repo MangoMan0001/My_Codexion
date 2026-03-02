@@ -6,13 +6,13 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 11:56:52 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/18 16:57:45 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/03 02:20:37 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-// 燃え尽きが発生したかを確認する関数
+// Function to check if burnout
 static void	is_someone_burned_out(t_rules *rule)
 {
 	int			i;
@@ -34,7 +34,7 @@ static void	is_someone_burned_out(t_rules *rule)
 	}
 }
 
-// シミュレーションが終了したかを確認する関数
+// Function to check if the simulation has ended
 static void	is_simulation_finished(t_rules *rule)
 {
 	int	i;

@@ -6,13 +6,13 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 11:23:38 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/18 16:35:13 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/03 02:21:39 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-// メモリ開放
+// Memory release
 void	free_rule(t_rules *rule)
 {
 	free(rule->dongle_locks);
@@ -22,7 +22,7 @@ void	free_rule(t_rules *rule)
 	free(rule->coders);
 }
 
-// Mutexとcondのリソースを開放する
+// Release the resources for the mutex and condition lock
 void	destroy_mutexes(t_rules *r)
 {
 	int	i;

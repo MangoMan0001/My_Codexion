@@ -6,15 +6,15 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 11:42:06 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/02/16 18:43:05 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/03 02:22:14 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
 /*
-** 現在時刻をミリ秒で返す
-** 1970年1月1日からの経過ミリ秒です。
+** Returns the current time in milliseconds
+** This is the number of milliseconds elapsed since January 1, 1970.
 */
 long long	get_time(void)
 {
@@ -26,8 +26,8 @@ long long	get_time(void)
 }
 
 /*
-** 指定時間(ms)だけ眠る
-** 負荷軽減のためusleep(50)刻みで確認
+** Sleep for the specified duration (ms)
+** Check in increments of usleep(50) to reduce load
 */
 int	just_sleep(long long time, t_rules *rule)
 {
