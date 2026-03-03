@@ -41,7 +41,8 @@ $(NAME): $(OBJS)
 		@$(CC) $(CFLAG) -c $< -o $@
 
 val: re
-		@valgrind --tool=helgrind -q ./codexion
+		@valgrind --tool=helgrind -q ./codexion 5 910 200 200 200 7 100 edf
+# @valgrind --leak-check=full -q ./codexion 5 910 200 200 200 7 100 edf
 
 run: re
 		@make clean

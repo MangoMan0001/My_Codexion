@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/03 02:28:55 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/03 16:44:33 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ typedef struct s_coder
 	int				right_dongle_id; // Right dongle ID (array index)
 	// --- State management ---
 	int				compile_count; // Number of times compiled so far
-	long long		last_compile_start; // Timestamp of the last compile start (ms)
-	long long		enqueue_time; // Time added to queue (ms), used only for FIFO
+	long long		last_compile_start; // last compile start (ms)
+	long long		enqueue_time; // Time added to queue (ms)
 	int				is_in_queue; // 1 if currently waiting in the queue
 	// --- Reference to shared data ---
 	t_rules			*rule; // Pointer to the parent (global rules)
@@ -78,14 +78,14 @@ struct s_rules
 	// --- Time management ---
 	long long		start_time; // Simulation start timestamp
 	// --- Control flags ---
-	int				is_simulation_active; // 1: active, 0: someone died or finished
+	int				is_simulation_active; // 1: active, 0: finished
 	int				finished_coders; // Number of coders who reached the target
 	// --- Synchronization primitives ---
 	pthread_mutex_t	global_lock; // Master lock for data and output protection
 	pthread_cond_t	cond; // Condition variable for sleeping/waking threads
 	// --- Shared resources (Dongles) ---
 	pthread_mutex_t	*dongle_locks; // Mutex for each individual dongle
-	long long		*dongle_cool_times; // Timestamp when dongle becomes available
+	long long		*dongle_cool_times; // Timestamp dongle
 	int				*dongle_status; // 0: available, 1: in use
 	// --- Waiting queue (Heap) ---
 	int				*queue; // Array of waiting coder IDs
