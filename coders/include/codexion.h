@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/03 16:44:33 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/08 09:16:32 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void		destroy_mutexes(t_rules *r);
 int			just_sleep(long long time, t_rules *rules);
 long long	get_time(void);
 void		*my_calloc(size_t size);
-void		print_log(t_coder *coder, char *msg);
-void		print_log_lock(t_coder *coder, char *msg);
+void		print_log(t_coder *coder, long long now, char *msg);
+void		print_log_lock(t_coder *coder, long long now, char *msg);
 
 #endif

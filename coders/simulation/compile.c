@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 22:21:18 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/03 02:18:21 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/08 10:25:35 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	just_compiling(t_coder *coder, t_rules *rule)
 {
 	int			first;
 	int			second;
+	long long	now;
 
 	first = coder->left_dongle_id;
 	second = coder->right_dongle_id;
@@ -63,7 +64,7 @@ static void	just_compiling(t_coder *coder, t_rules *rule)
 		second = coder->left_dongle_id;
 	}
 	pthread_mutex_lock(&rule->dongle_locks[first]);
-	print_log_lock(coder, "has taken a dongle");
+	print_log(coder, get_time(),"has taken a dongle");
 	if (first == second)
 	{
 		while (just_sleep(50, rule))
@@ -72,8 +73,10 @@ static void	just_compiling(t_coder *coder, t_rules *rule)
 		return ;
 	}
 	pthread_mutex_lock(&rule->dongle_locks[second]);
-	print_log_lock(coder, "has taken a dongle");
-	print_log_lock(coder, "is compiling");
+	now = get_time();
+	coder->last_compile_start = now;
+	print_log_lock(coder, now, "has taken a dongle");
+	print_log_lock(coder, now, "is compiling");
 	just_sleep(rule->time_to_compile, rule);
 	pthread_mutex_unlock(&rule->dongle_locks[first]);
 	pthread_mutex_unlock(&rule->dongle_locks[second]);
@@ -93,7 +96,6 @@ static void	reserve_usb(t_coder *coder)
 	rule->dongle_status[coder->left_dongle_id] = TRUE;
 	rule->dongle_status[coder->right_dongle_id] = TRUE;
 	pop_queue(coder);
-	coder->last_compile_start = get_time();
 }
 
 /*

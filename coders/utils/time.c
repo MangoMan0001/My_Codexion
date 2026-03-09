@@ -6,15 +6,15 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 11:42:06 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/03 02:22:14 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/08 07:04:38 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
 /*
-** Returns the current time in milliseconds
-** This is the number of milliseconds elapsed since January 1, 1970.
+** Returns the current time in microseconds (μs)
+** This is the number of microseconds elapsed since January 1, 1970.
 */
 long long	get_time(void)
 {
@@ -22,7 +22,7 @@ long long	get_time(void)
 
 	if (gettimeofday(&tv, NULL))
 		return (1);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	return ((tv.tv_sec * 1000000LL) + tv.tv_usec);
 }
 
 /*

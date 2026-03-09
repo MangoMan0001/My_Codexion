@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 22:03:18 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/03 02:11:56 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/08 08:38:32 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ static int	init_rule(t_rules *rule, char **argv)
 {
 	memset(rule, 0, sizeof(t_rules));
 	rule->num_coders = atoi(argv[1]);
-	rule->time_to_burnout = atoi(argv[2]);
-	rule->time_to_compile = atoi(argv[3]);
-	rule->time_to_debug = atoi(argv[4]);
-	rule->time_to_refactor = atoi(argv[5]);
+	rule->time_to_burnout = atoi(argv[2]) * 1000;
+	rule->time_to_compile = atoi(argv[3]) * 1000;
+	rule->time_to_debug = atoi(argv[4]) * 1000;
+	rule->time_to_refactor = atoi(argv[5]) * 1000;
 	rule->must_compile_count = atoi(argv[6]);
-	rule->dongle_cooldown = atoi(argv[7]);
+	rule->dongle_cooldown = atoi(argv[7]) * 1000;
 	rule->is_simulation_active = TRUE;
 	if (!strcmp(argv[8], "fifo"))
 		rule->scheduler_type = FIFO;

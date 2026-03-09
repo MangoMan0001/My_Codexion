@@ -46,7 +46,7 @@ val: re
 
 run: re
 		@make clean
-		@./codexion 5 910 200 200 200 7 100 edf
+		@./codexion 5 910 200 200 200 5 100 edf
 
 clean:
 		@echo "CLeaning..."

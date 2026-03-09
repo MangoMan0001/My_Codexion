@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 08:32:05 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/03 02:18:55 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/08 09:17:25 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	routine_refactoring(t_coder *coder, int *flag)
 	pthread_mutex_lock(&rule->global_lock);
 	*flag = rule->is_simulation_active;
 	if (*flag)
-		print_log(coder, "is refactoring");
+		print_log(coder, get_time(), "is refactoring");
 	pthread_mutex_unlock(&rule->global_lock);
 	just_sleep(rule->time_to_refactor, rule);
 }
@@ -39,7 +39,7 @@ static void	routine_debug(t_coder *coder, int *flag)
 	pthread_mutex_lock(&rule->global_lock);
 	*flag = rule->is_simulation_active;
 	if (*flag)
-		print_log(coder, "is debugging");
+		print_log(coder, get_time(), "is debugging");
 	pthread_mutex_unlock(&rule->global_lock);
 	just_sleep(rule->time_to_debug, rule);
 }
