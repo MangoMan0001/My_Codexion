@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 11:56:52 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/08 11:31:38 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/09 11:42:26 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	is_someone_burned_out(t_rules *rule)
 		return ;
 	while (i < rule->num_coders)
 	{
-		now = get_time()
+		now = get_time();
 		time = now - rule->coders[i].last_compile_start;
 		if (rule->time_to_burnout <= time)
 		{

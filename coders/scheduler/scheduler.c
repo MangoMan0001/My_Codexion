@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:58:10 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/03 02:16:18 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:18:06 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int	scheduler(t_coder *coder)
 		shift_up(rule->queue_size, rule);
 	}
 	if (l_coder->is_in_queue && \
-		compare_coders(coder->left_coder_id, coder->id, rule))
+		compare_coders(coder->id, coder->left_coder_id, rule) == FALSE)
 		return (FALSE);
 	if (r_coder->is_in_queue && \
-		compare_coders(coder->right_coder_id, coder->id, rule))
+		compare_coders(coder->id, coder->right_coder_id, rule) == FALSE)
 		return (FALSE);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:58:10 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/08 10:42:14 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:23:04 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,7 @@ int	compare_coders(int id1, int id2, t_rules *rule)
 		time2 = rule->coders[id2 - 1].last_compile_start;
 		if (time1 == time2)
 		{
-			if (id1 > id2)
-			{
-				printf("pin\n");
-				return (FALSE);
-			}
+			return (TRUE);
 		}
 	}
 	if (time1 < time2)
