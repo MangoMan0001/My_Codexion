@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 22:21:18 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/10 11:30:16 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/10 12:07:14 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ static void	just_compiling(t_coder *coder, t_rules *rule)
 		second = coder->left_dongle_id;
 	}
 	pthread_mutex_lock(&rule->dongle_locks[first]);
-	print_log(coder, get_time(), "has taken a dongle");
+	print_log_lock(coder, get_time(), "has taken a dongle");
 	pthread_mutex_lock(&rule->dongle_locks[second]);
+	print_log_lock(coder, get_time(), "has taken a dongle");
 	pthread_mutex_lock(&rule->global_lock);
-	print_log(coder, get_time(), "has taken a dongle");
 	coder->last_compile_start = get_time();
 	print_log(coder, coder->last_compile_start, "is compiling");
 	pthread_mutex_unlock(&rule->global_lock);
