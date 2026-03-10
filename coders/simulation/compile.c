@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 22:21:18 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/10 12:07:14 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/10 13:12:48 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,24 @@ static int	can_i_get_the_usb(t_coder *coder, t_rules *rule, int *flag)
 ** - Sleep
 ** - Release USB
 */
-static void	just_compiling(t_coder *coder, t_rules *rule)
+static void	just_compiling(t_coder *coder, t_rules *rule, int first, int second)
 {
-	int			first;
-	int			second;
+	int	temp;
 
-	first = coder->left_dongle_id;
-	second = coder->right_dongle_id;
-	if (coder->right_coder_id < coder->left_coder_id)
+	if (second < first)
 	{
-		first = coder->right_dongle_id;
-		second = coder->left_dongle_id;
+		temp = first;
+		first = second;
+		second = temp;
 	}
 	pthread_mutex_lock(&rule->dongle_locks[first]);
 	print_log_lock(coder, get_time(), "has taken a dongle");
+	if (first == second)
+	{
+		just_sleep(rule->time_to_burnout + 100000, rule);
+		pthread_mutex_unlock(&rule->dongle_locks[first]);
+		return ;
+	}
 	pthread_mutex_lock(&rule->dongle_locks[second]);
 	print_log_lock(coder, get_time(), "has taken a dongle");
 	pthread_mutex_lock(&rule->global_lock);
@@ -127,7 +131,8 @@ void	routine_compile(t_coder *coder, int *flag)
 	{
 		reserve_usb(coder);
 		pthread_mutex_unlock(&rule->global_lock);
-		just_compiling(coder, rule);
+		just_compiling(coder, rule, coder->left_dongle_id, \
+									coder->right_dongle_id);
 		pthread_mutex_lock(&rule->global_lock);
 		return_usb(coder);
 		pthread_cond_broadcast(&rule->cond);

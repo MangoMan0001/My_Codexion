@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 16:58:10 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/10 11:53:24 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/10 12:42:38 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	compare_coders(int id1, int id2, t_rules *rule)
 	long long	time2;
 
 	if (id1 == id2)
-		return (FALSE);
+		return (TRUE);
 	if (rule->scheduler_type == FIFO)
 	{
 		time1 = rule->coders[id1 - 1].enqueue_time;

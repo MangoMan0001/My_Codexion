@@ -11,14 +11,14 @@ CFLAG   	= -Wall -Wextra -Werror -pthread $(INCLUDES)
 # ------------------------------------------------------------------------------
 CODE_DIR	= coders
 
-CODE_CORE	= main.c codexion.c init.c validate.c
+CODE_ENTRY	= main.c codexion.c init.c validate.c
 CODE_SCHED	= scheduler.c heap.c
 CODE_SIM	= routine.c simulation.c compile.c subroutine.c
 CODE_UTILS	= clean.c time.c utils.c
 
 INCLUDES 	= -I./coders/include
 
-SRCS        = $(addprefix $(CODE_DIR)/core/, $(CODE_CORE)) \
+SRCS        = $(addprefix $(CODE_DIR)/entry/, $(CODE_ENTRY)) \
 			  $(addprefix $(CODE_DIR)/scheduler/, $(CODE_SCHED)) \
 			  $(addprefix $(CODE_DIR)/simulation/, $(CODE_SIM)) \
 			  $(addprefix $(CODE_DIR)/utils/, $(CODE_UTILS))
@@ -47,7 +47,7 @@ val: re
 
 run: re
 		@make clean
-		./codexion 5 910 200 200 200 5 100 edf
+		./codexion 1 910 200 200 200 5 100 edf
 
 clean:
 		@echo "CLeaning..."
