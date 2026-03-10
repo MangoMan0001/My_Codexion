@@ -42,12 +42,12 @@ $(NAME): $(OBJS)
 
 val: re
 		@make clean
-		@valgrind --tool=helgrind -q ./codexion 5 910 200 200 200 7 100 fifo
-# 		@valgrind --leak-check=full -q ./codexion 5 910 200 200 200 7 100 fifo
+		@valgrind --tool=helgrind -q ./codexion 5 910 200 200 200 7 100 edf
+# 		@valgrind --leak-check=full -q ./codexion 5 910 200 200 200 7 100 edf
 
 run: re
 		@make clean
-		@./codexion 2 910 200 200 200 5 100 fifo
+		./codexion 5 910 200 200 200 5 100 edf
 
 clean:
 		@echo "CLeaning..."

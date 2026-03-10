@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 19:17:39 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/08 09:16:32 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/10 11:39:17 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ typedef struct s_coder
 	int				right_dongle_id; // Right dongle ID (array index)
 	// --- State management ---
 	int				compile_count; // Number of times compiled so far
-	long long		last_compile_start; // last compile start (ms)
-	long long		enqueue_time; // Time added to queue (ms)
+	long long		last_compile_start; // last compile start (μs)
+	long long		enqueue_time; // Time added to queue (μs)
 	int				is_in_queue; // 1 if currently waiting in the queue
 	// --- Reference to shared data ---
 	t_rules			*rule; // Pointer to the parent (global rules)
@@ -68,12 +68,12 @@ struct s_rules
 {
 	// --- Configurations ---
 	int				num_coders;
-	long long		time_to_burnout; // Time until burnout (ms)
+	long long		time_to_burnout; // Reference time (μs)
 	long long		time_to_compile;
 	long long		time_to_debug;
 	long long		time_to_refactor;
 	int				must_compile_count; // Target number of compiles
-	int				dongle_cooldown; // Dongle cooldown time (ms)
+	int				dongle_cooldown; // Dongle cooldown time (μs)
 	int				scheduler_type; // Scheduler type (FIFO or EDF)
 	// --- Time management ---
 	long long		start_time; // Simulation start timestamp

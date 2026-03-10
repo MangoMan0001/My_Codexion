@@ -6,7 +6,7 @@
 /*   By: ayhirose <ayhirose@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 11:42:06 by ayhirose          #+#    #+#             */
-/*   Updated: 2026/03/08 07:04:38 by ayhirose         ###   ########.fr       */
+/*   Updated: 2026/03/10 11:39:46 by ayhirose         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ long long	get_time(void)
 }
 
 /*
-** Sleep for the specified duration (ms)
+** Sleep for the specified duration (μs)
 ** Check in increments of usleep(50) to reduce load
 */
 int	just_sleep(long long time, t_rules *rule)
